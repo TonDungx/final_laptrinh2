@@ -4,6 +4,7 @@
 #include <sstream>
 #include <iomanip>
 #include <cstdlib>
+#include <conio.h>
 #define MAX_COURSES 3
 #define MAX_STUDENTS 100
 
@@ -15,8 +16,16 @@ public:
     float marks;
     float credit;
 
-    Course() : courseName(""), marks(0), credit(0) {}
-    Course(string name, float mark, float cred) : courseName(name), marks(mark), credit(cred) {}
+    Course() {
+        courseName = "";
+        marks = 0;
+        credit = 0;
+    }
+    Course(string name, float mark, float cred) {
+        courseName = name;
+        marks = mark;
+        credit = cred;
+    }
 };
 
 class Student {
@@ -28,8 +37,20 @@ public:
     int courseCount;
     float gpa;
 
-    Student() : id(""), name(""), gender(""), courseCount(0), gpa(0) {}
-    Student(string id, string name, string gender) : id(id), name(name), gender(gender), courseCount(0), gpa(0) {}
+    Student() {
+        id = "";
+        name = "";
+        gender = "";
+        courseCount = 0;
+        gpa = 0;
+    }
+    Student(string id, string name, string gender) {
+        this->id = id;
+        this->name = name;
+        this->gender = gender;
+        courseCount = 0;
+        gpa = 0;
+    }
 
     void calculateGPA() {
         float totalScore = 0;
@@ -38,7 +59,12 @@ public:
             totalCredit += courses[i].credit;
             totalScore += courses[i].marks * courses[i].credit;
         }
-        gpa = (totalCredit > 0) ? (totalScore / totalCredit) / 10 * 4 : 0;
+        if (totalCredit > 0) {
+            gpa = (totalScore / totalCredit) / 10 * 4;
+        }
+        else {
+            gpa = 0;
+        }
     }
 };
 
@@ -286,18 +312,25 @@ public:
 int main() {
     int choice;
     Enrollment system1; // Initialize Enrollment object outside the loop
+    system("cls");
+    cout << "\n\n\n\n\n";
+    cout << "\n\t\t\t        WELCOME TO MANAGEMENT SYSTEM         ";
+    cout << "\n\t\t\t               GROUP ONE        ";
+    cout << "\n\n\n\t\t\t\tEnter any key to continue.....";
 
+    _getch();
+    system("cls");
     while (true) {
         system("cls");
-        cout << "Student Management System" << endl;
-        cout << "1. Add New Student" << endl;
-        cout << "2. Update Existing Student" << endl;
-        cout << "3. Search for a Student by ID" << endl;
-        cout << "4. Search for a Student by Name" << endl;
-        cout << "5. Remove a Student" << endl;
-        cout << "6. List All Students" << endl;
-        cout << "7. Exit" << endl;
-        cout << "Enter your choice: ";
+        cout << "\n\t\t\tSTUDENT MANAGEMENT SYSTEM" << endl;
+        cout << "\n\t\t\t1. Add New Student" << endl;
+        cout << "\n\t\t\t2. Update Existing Student" << endl;
+        cout << "\n\t\t\t3. Search for a Student by ID" << endl;
+        cout << "\n\t\t\t4. Search for a Student by Name" << endl;
+        cout << "\n\t\t\t5. Remove a Student" << endl;
+        cout << "\n\t\t\t6. List All Students" << endl;
+        cout << "\n\t\t\t7. Exit" << endl;
+        cout << "\n\t\t\tEnter your choice: ";
         cin >> choice;
         system("cls");
 
