@@ -1,0 +1,104 @@
+void updateStudents() {
+    stack<Student> tempStack, tempStack1, tempStack2 = students;
+    Student temp1, temp2;
+    string id;
+    char change;
+    bool found = false;
+    fstream fin("Book2.csv", ios::in | ios::out);
+    cout << "Enter student's ID to update: ";
+    cin >> id;
+    cin.ignore();
+
+    while (!tempStack2.empty()) {
+        Student emp = tempStack2.top();
+        tempStack2.pop();
+
+        if ((emp.ID == id) == 1) {
+            found = true;
+
+            cout << "Do you want to change the name? (Y/N): "; 
+            cin >> change;
+            if (change == 'Y' || change == 'y'){
+                cin.ignore();
+                cout << "Name: ";
+                getline(cin, temp1.name);
+            }else{
+                temp1.name = emp.name;
+            }
+             
+            cout << "Do you want to change the gender? (Y/N): ";
+            cin >> change;
+            if (change == 'Y' || change == 'y') {
+                addGender(temp1);
+            } else {
+                temp1.gender = emp.gender;  
+            }
+            
+            cout << "Do you want to change the email? (Y/N): ";
+            cin >> change;
+            cin.ignore();
+            if (change == 'Y' || change == 'y') {
+                addEmail(temp1);
+            } else {
+                temp1.email = emp.email;  
+            }
+        
+            cout << "Do you want to change the ID? (Y/N): ";
+            cin >> change;
+            if (change == 'Y' || change == 'y') {
+                addID(temp1);
+            } else {
+                temp1.ID = emp.ID;  
+            }
+            
+            cout << "Do you want to change the phone number? (Y/N): ";
+            cin >> change;
+            cin.ignore();
+            if (change == 'Y' || change == 'y') {
+                addPhoneNo(temp1);
+            } else {
+                temp1.phoneNo = emp.phoneNo;  
+            }
+
+            cout << "Do you want to change the falcuty? (Y/N): "; 
+            cin >> change;
+            if (change == 'Y' || change == 'y'){
+                cin.ignore();
+                cout << "Falcuty: ";
+                getline(cin, temp1.falcuty);
+            }else{
+                temp1.falcuty = emp.falcuty;
+            }
+        
+            tempStack.push(temp1);
+            break;
+        } else {
+            tempStack.push(emp);
+        }
+    }
+    
+    while (!tempStack.empty()) {
+        tempStack2.push(tempStack.top());
+        tempStack.pop();
+    }    
+    students = tempStack2;
+    if (found) {
+        fin.close();
+        ofstream fout("Book2.csv", ios::trunc); // Open the file in truncate mode to clear the existing data
+
+        while (!tempStack2.empty()) {
+            Student temp2 = tempStack2.top();
+            temp2.phoneNo.insert(0, " '");
+            fout << temp2.name << "," << temp2.gender << ","
+                 << temp2.email << "," << temp2.ID << "," << temp2.phoneNo << "," << temp2.falcuty << ","
+                 << endl;
+
+            tempStack2.pop();
+        }
+
+        fout.close();
+        cout << "Student updated successfully!\n";
+    } else {
+        cout << "Student not found!\n";
+    }
+}

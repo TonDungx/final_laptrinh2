@@ -143,46 +143,29 @@ public:
 
         for (int i = 0; i < studentCount; ++i) {
             if (students[i].id == id) {
-                string input;
-                cout << "Update name? (Y/N): ";
-                cin >> input;
-                cin.ignore();
-                if (input == "Y" || input == "y") {
-                    cout << "Enter new name: ";
-                    getline(cin, students[i].name);
-                }
+                cout << "Enter new name: ";
+                getline(cin, students[i].name);
+                cout << "Enter new gender: ";
+                getline(cin, students[i].gender);
 
-                cout << "Update gender? (Y/N): ";
-                cin >> input;
+                cout << "Enter number of courses (max 3): ";
+                cin >> students[i].courseCount;
                 cin.ignore();
-                if (input == "Y" || input == "y") {
-                    cout << "Enter new gender: ";
-                    getline(cin, students[i].gender);
-                }
-
-                cout << "Update courses? (Y/N): ";
-                cin >> input;
-                cin.ignore();
-                if (input == "Y" || input == "y") {
-                    cout << "Enter number of courses (max 3): ";
-                    cin >> students[i].courseCount;
+                for (int j = 0; j < students[i].courseCount; ++j) {
+                    string courseName;
+                    float marks, credit;
+                    cout << "Enter course name: ";
+                    getline(cin, courseName);
+                    cout << "Enter marks: ";
+                    cin >> marks;
+                    cout << "Enter credit: ";
+                    cin >> credit;
                     cin.ignore();
-                    for (int j = 0; j < students[i].courseCount; ++j) {
-                        string courseName;
-                        float marks, credit;
-                        cout << "Enter course name: ";
-                        getline(cin, courseName);
-                        cout << "Enter marks: ";
-                        cin >> marks;
-                        cout << "Enter credit: ";
-                        cin >> credit;
-                        cin.ignore();
-                        students[i].courses[j] = Course(courseName, marks, credit);
-                    }
-                    students[i].calculateGPA();
+                    students[i].courses[j] = Course(courseName, marks, credit);
                 }
-
+                students[i].calculateGPA();
                 saveToFile();
+
                 cout << "Student updated successfully." << endl;
                 system("pause");
                 return;
@@ -193,7 +176,7 @@ public:
         system("pause");
     }
 
-    void searchStudentByID() {
+    void searchStudent() {
         string id;
         cout << "Enter ID of the student to search: ";
         cin >> id;
@@ -217,32 +200,7 @@ public:
         system("pause");
     }
 
-    void searchStudentByName() {
-        string name;
-        cout << "Enter name of the student to search: ";
-        cin.ignore();
-        getline(cin, name);
 
-        bool found = false;
-        for (int i = 0; i < studentCount; ++i) {
-            if (students[i].name == name) {
-                cout << "ID: " << students[i].id << endl;
-                cout << "Name: " << students[i].name << endl;
-                cout << "Gender: " << students[i].gender << endl;
-                cout << "GPA: " << students[i].gpa << endl;
-                for (int j = 0; j < students[i].courseCount; ++j) {
-                    cout << "Course " << (j + 1) << ": " << students[i].courses[j].courseName << ", Marks: " << students[i].courses[j].marks << ", Credit: " << students[i].courses[j].credit << endl;
-                }
-                found = true;
-                cout << "-----------------------------------" << endl;
-            }
-        }
-
-        if (!found) {
-            cout << "Student name not found." << endl;
-        }
-        system("pause");
-    }
 
     void removeStudent() {
         string id;
@@ -292,11 +250,10 @@ int main() {
         cout << "Student Management System" << endl;
         cout << "1. Add New Student" << endl;
         cout << "2. Update Existing Student" << endl;
-        cout << "3. Search for a Student by ID" << endl;
-        cout << "4. Search for a Student by Name" << endl;
-        cout << "5. Remove a Student" << endl;
-        cout << "6. List All Students" << endl;
-        cout << "7. Exit" << endl;
+        cout << "3. Search for a Student" << endl;
+        cout << "4. Remove a Student" << endl;
+        cout << "5. List All Students" << endl;
+        cout << "6. Exit" << endl;
         cout << "Enter your choice: ";
         cin >> choice;
         system("cls");
@@ -309,18 +266,15 @@ int main() {
             system1.updateStudent();
             break;
         case 3:
-            system1.searchStudentByID();
+            system1.searchStudent();
             break;
         case 4:
-            system1.searchStudentByName();
-            break;
-        case 5:
             system1.removeStudent();
             break;
-        case 6:
+        case 5:
             system1.listAllStudents();
             break;
-        case 7:
+        case 6:
             return 0;
         default:
             cout << "Invalid choice. Please try again." << endl;
